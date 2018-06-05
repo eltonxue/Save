@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "eltonxue",
+    "password": null,
+    "database": "save-dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "eltonxue",
+    "password": null,
+    "database": "save-test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "eltonxue",
+    "password": null,
+    "database": "save-production",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
