@@ -9,14 +9,13 @@ const ApplicationStyles = {
   screen: {
     mainContainer: {
       flex: 1,
-      backgroundColor: Colors.transparent
+      backgroundColor: Colors.offblack
     },
     backgroundImage: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0
+      flex: 1,
+      width: null,
+      height: null,
+      resizeMode: 'cover'
     },
     container: {
       flex: 1,

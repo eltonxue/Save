@@ -1,15 +1,22 @@
 import React, { Component } from 'react'
 import autoBind from 'react-autobind'
+import FontAwesome, { Icons } from 'react-native-fontawesome'
 import {
   ScrollView,
   Text,
   Image,
+  ImageBackground,
   View,
   Button,
   TouchableOpacity,
   TextInput
 } from 'react-native'
-import DevscreensButton from '../../ignite/DevScreens/DevscreensButton.js'
+
+import Icon from 'react-native-vector-icons/FontAwesome'
+import { Input } from 'react-native-elements'
+
+import DrawerButton from '../Components/DrawerButton'
+import RoundedButton from '../Components/RoundedButton'
 import { StackNavigator } from 'react-navigation'
 
 // Screens
@@ -24,8 +31,16 @@ class LaunchScreen extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { email: 'Email', password: 'Password' }
+    this.state = {
+      email: '',
+      password: '',
+      emailError: '',
+      passwordError: '',
+      error: ''
+    }
   }
+
+  loginUser = () => {}
   openRegistration = () => {
     this.props.navigation.navigate('RegistrationScreen')
   }
@@ -33,31 +48,54 @@ class LaunchScreen extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <Image
-          source={Images.background}
-          style={styles.backgroundImage}
-          resizeMode="stretch"
-        />
         <ScrollView style={styles.container}>
-          <View style={styles.centered}>
-            <Image source={Images.launch} style={styles.logo} />
-          </View>
+          <Text style={styles.save}>Save</Text>
           <View style={styles.section}>
-            <Image source={Images.ready} />
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={email => this.setState({ email })}
-              value={this.state.email}
-            />
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={password => this.setState({ password })}
-              value={this.state.password}
-            />
+            <Text style={styles.subheader}>
+              <Text style={styles.sub}>Create</Text> Budgets.{' '}
+              <Text style={styles.sub}>Save</Text> Money.
+            </Text>
+            <View style={styles.centered}>
+              <Input
+                inputContainerStyle={
+                  !this.state.emailError
+                    ? styles.inputContainer
+                    : styles.invalidInputContainer
+                }
+                inputStyle={styles.input}
+                onChangeText={email => this.setState({ email })}
+                value={this.state.email}
+                placeholder="Email"
+                ref={input => (this.emailInput = input)}
+                leftIconContainerStyle={styles.iconContainer}
+                leftIcon={<Icon style={styles.icon} name="envelope" />}
+                errorStyle={styles.errorText}
+                errorMessage={this.state.emailError}
+              />
+
+              <Input
+                inputContainerStyle={
+                  !this.state.passwordError
+                    ? styles.inputContainer
+                    : styles.invalidInputContainer
+                }
+                inputStyle={styles.input}
+                onChangeText={password => this.setState({ password })}
+                value={this.state.password}
+                placeholder="Password"
+                secureTextEntry={true}
+                ref={input => (this.passwordInput = input)}
+                leftIconContainerStyle={styles.iconContainer}
+                leftIcon={<Icon style={styles.icon} name="lock" />}
+                errorStyle={styles.errorText}
+                errorMessage={this.state.passwordError}
+              />
+            </View>
           </View>
-          // <Button title="Register" onPress={this.openRegistration} />
+          <RoundedButton text="Login" onPress={this.openRegistration} />
+          <View style={styles.centered}>
+            <DrawerButton text="Register" onPress={this.openRegistration} />
+          </View>
         </ScrollView>
       </View>
     )

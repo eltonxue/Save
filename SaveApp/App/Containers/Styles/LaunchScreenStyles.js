@@ -15,15 +15,79 @@ export default StyleSheet.create({
   centered: {
     alignItems: 'center'
   },
-  label: {
-    color: Colors.steel,
-    marginTop: 20
+  section: {
+    margin: Metrics.section,
+    padding: Metrics.baseMargin,
+    marginBottom: 5
   },
+  registerButton: {
+    fontSize: 6,
+    textAlign: 'center'
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    marginTop: 15,
+    borderRadius: 5,
+    paddingLeft: 0,
+    borderBottomWidth: 0
+  },
+  invalidInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    marginTop: 15,
+    borderRadius: 5,
+    paddingLeft: 0,
+    borderWidth: 1,
+    borderLeftWidth: 1,
+    borderBottomWidth: 1,
+    borderRightWidth: 1.5,
+    borderColor: 'red'
+  },
+
   input: {
+    borderRadius: 5,
     color: Colors.steel,
     height: 40,
-    padding: 10,
+    paddingLeft: 0,
+    paddingRight: 10,
     borderColor: 'gray',
-    borderWidth: 1
+    backgroundColor: 'white',
+    color: Colors.offblack,
+    fontSize: 14,
+    flex: 8
+  },
+  iconContainer: {
+    flex: 1
+  },
+  icon: {
+    fontSize: 20,
+    color: Colors.offblack
+  },
+  subheader: {
+    fontSize: 20,
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: '700'
+  },
+  sub: {
+    fontSize: 20,
+    color: Colors.moneygreen
+  },
+  save: {
+    fontSize: 80,
+    textAlign: 'center',
+    color: 'white',
+    marginTop: 125,
+    fontFamily: 'CourierNewPS-BoldMT'
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 15,
+    marginBottom: 0
   }
 })

@@ -1,19 +1,35 @@
 const errorCodes = {
-  MISSING_FIRST_NAME: {
+  MISSING_FULL_NAME: {
     code: 100,
-    message: 'Missing first name field'
-  },
-  MISSING_LAST_NAME: {
-    code: 100,
-    message: 'Missing last name field'
+    message: 'Missing full name field'
   },
   MISSING_EMAIL: {
-    code: 100,
+    code: 101,
     message: 'Missing email field'
   },
   MISSING_PASSWORD: {
-    code: 100,
+    code: 102,
     message: 'Missing password field'
+  },
+  MISSING_CONFIRM_PASSWORD: {
+    code: 103,
+    message: 'Missing password field'
+  },
+  INVALID_EMAIL: {
+    code: 104,
+    message: 'Invalid email'
+  },
+  PASSWORDS_DO_NOT_MATCH: {
+    code: 105,
+    message: 'Passwords do not match'
+  },
+  INVALID_PASSWORD: {
+    code: 106,
+    message: 'Must be at least 6 characters'
+  },
+  EMAIL_ALREADY_EXISTS: {
+    code: 107,
+    message: 'Email already exists'
   },
   JWT_MISSING_HEADER: {
     code: 200,
@@ -35,8 +51,8 @@ const errorCodes = {
     code: 301,
     message: 'User was not found'
   }
-};
+}
 
 module.exports = {
   errorCodes
-};
+}
