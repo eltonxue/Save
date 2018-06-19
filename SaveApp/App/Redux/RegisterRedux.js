@@ -6,7 +6,7 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   registerRequest: ['fullName', 'email', 'password', 'confirmPassword'],
   registerSuccess: ['response'],
-  registerFailure: null
+  registerFailure: ['response']
 })
 
 export const RegisterTypes = Types
@@ -15,19 +15,27 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  response: null,
   fetching: null,
   error: null,
   fullName: null,
   email: null,
   password: null,
-  confirmPassword: null
+  confirmPassword: null,
+  data: {
+    data: null,
+    error: {
+      code: null,
+      message: null
+    }
+  }
 })
 
 /* ------------- Selectors ------------- */
 
 export const registerSelectors = {
-  selectRegisteredUser: state => state.register.response
+  selectRegisteredUser: state => state.register.data.data,
+  selectRegistrationError: state => state.register.data.error,
+  registrationIsBusy: state => state.register.fetching
 }
 
 /* ------------- Reducers ------------- */
@@ -43,18 +51,34 @@ export const request = (
     email,
     password,
     confirmPassword,
-    response: null
+    data: {
+      data: null,
+      error: {
+        code: null,
+        message: null
+      }
+    }
   })
 
 // successful avatar lookup
 export const success = (state, action) => {
-  const { user } = action
-  return state.merge({ fetching: false, error: null, response })
+  const { data } = action.response
+  return state.merge({
+    fetching: false,
+    error: null,
+    data
+  })
 }
 
 // failed to get the avatar
-export const failure = state =>
-  state.merge({ fetching: false, error: true, response })
+export const failure = (state, action) => {
+  const { data } = action.response
+  return state.merge({
+    fetching: false,
+    error: true,
+    data
+  })
+}
 
 /* ------------- Hookup Reducers To Types ------------- */
 

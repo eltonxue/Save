@@ -13,20 +13,22 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Input } from 'react-native-elements'
 import * as Animatable from 'react-native-animatable'
+import DropdownAlert from 'react-native-dropdownalert'
+import { StackNavigator } from 'react-navigation'
+import { connect } from 'react-redux'
 
 import { Images } from '../Themes'
 
 import DrawerButton from '../Components/DrawerButton'
-import FullButton from '../Components/FullButton'
 import RoundedButton from '../Components/RoundedButton'
-import { StackNavigator } from 'react-navigation'
 
-import API from '../Services/Api'
+import RegisterActions from '../Redux/RegisterRedux'
+import { registerSelectors } from '../Redux/RegisterRedux'
 
 // Styles
 import styles from './Styles/RegistrationScreenStyles'
 
-export default class RegistrationScreen extends Component {
+class RegistrationScreen extends Component {
   constructor(props) {
     super(props)
 
@@ -34,81 +36,31 @@ export default class RegistrationScreen extends Component {
       fullName: '',
       email: '',
       password: '',
-      confirmPassword: '',
-      fullNameError: '',
-      emailError: '',
-      passwordError: '',
-      confirmPasswordError: ''
+      confirmPassword: ''
     }
-
-    this.api = API.create()
   }
 
-  resetErrors = () => {
-    this.setState({
-      fullNameError: '',
-      emailError: '',
-      passwordError: '',
-      confirmPasswordError: '',
-      error: ''
-    })
+  componentWillReceiveProps(nextProps) {
+    if (this.props.registrationError && !this.props.isBusy) {
+      console.log(this.props.registrationError)
+      this.dropdown.alertWithType(
+        'error',
+        'Oops! Please try again.',
+        `\u2022 ${this.props.registrationError.message}`
+      )
+    }
   }
 
-  handleErrors = error => {
-    if (error.code === 100) {
-      this.setState({
-        fullNameError: error.message
-      })
-      this.fullNameInput.shake()
-    } else if (error.code === 101 || error.code === 104 || error.code === 107) {
-      this.setState({
-        emailError: error.message
-      })
-      this.emailInput.shake()
-    } else if (error.code === 102) {
-      this.setState({
-        passwordError: error.message
-      })
-      this.passwordInput.shake()
-    } else if (error.code === 103) {
-      this.setState({
-        confirmPasswordError: error.message
-      })
-      this.confirmPasswordInput.shake()
-    } else if (error.code === 105 || error.code == 106) {
-      this.setState({
-        passwordError: error.message,
-        confirmPasswordError: error.message
-      })
-      this.passwordInput.shake()
-      this.confirmPasswordInput.shake()
-    }
+  onClose(data) {
+    // data = {type, title, message, action}
+    // action means how the alert was closed.
+    // returns: automatic, programmatic, tap, pan or cancel
   }
 
   registerUser = () => {
-    this.resetErrors()
+    const { fullName, email, password, confirmPassword } = this.state
 
-    const registerApiEndpoint = {
-      label: 'Register User',
-      endpoint: 'postRegister',
-      args: [
-        this.state.fullName,
-        this.state.email,
-        this.state.password,
-        this.state.confirmPassword
-      ]
-    }
-
-    const { label, endpoint, args = [''] } = registerApiEndpoint
-    this.api[endpoint].apply(this, args).then(response => {
-      if (response.ok) {
-        this.props.navigation.navigate('LaunchScreen')
-      } else {
-        console.log('error', response.data)
-        const { error } = response.data
-        this.handleErrors(error)
-      }
-    })
+    this.props.registerUser(fullName, email, password, confirmPassword)
   }
 
   goBack = () => {
@@ -139,8 +91,6 @@ export default class RegistrationScreen extends Component {
                 ref={input => (this.fullNameInput = input)}
                 leftIconContainerStyle={styles.iconContainer}
                 leftIcon={<Icon style={styles.icon} name="user" />}
-                errorStyle={styles.errorText}
-                errorMessage={this.state.fullNameError}
               />
               <Input
                 inputContainerStyle={
@@ -155,8 +105,6 @@ export default class RegistrationScreen extends Component {
                 ref={input => (this.emailInput = input)}
                 leftIconContainerStyle={styles.iconContainer}
                 leftIcon={<Icon style={styles.icon} name="envelope" />}
-                errorStyle={styles.errorText}
-                errorMessage={this.state.emailError}
               />
 
               <Input
@@ -173,8 +121,6 @@ export default class RegistrationScreen extends Component {
                 ref={input => (this.passwordInput = input)}
                 leftIconContainerStyle={styles.iconContainer}
                 leftIcon={<Icon style={styles.icon} name="lock" />}
-                errorStyle={styles.errorText}
-                errorMessage={this.state.passwordError}
               />
 
               <Input
@@ -193,8 +139,6 @@ export default class RegistrationScreen extends Component {
                 ref={input => (this.confirmPasswordInput = input)}
                 leftIconContainerStyle={styles.iconContainer}
                 leftIcon={<Icon style={styles.icon} name="lock" />}
-                errorStyle={styles.errorText}
-                errorMessage={this.state.confirmPasswordError}
               />
             </View>
           </View>
@@ -204,7 +148,41 @@ export default class RegistrationScreen extends Component {
             <DrawerButton text="Login" onPress={this.goBack} />
           </View>
         </ScrollView>
+        <DropdownAlert
+          ref={ref => (this.dropdown = ref)}
+          onClose={data => this.onClose(data)}
+          closeInterval={6000}
+        />
       </View>
     )
   }
 }
+
+const mapStateToProps = state => {
+  const {
+    selectRegisteredUser,
+    selectRegistrationError,
+    registrationIsBusy
+  } = registerSelectors
+  return {
+    registeredUser: selectRegisteredUser(state),
+    registrationError: selectRegistrationError(state),
+    isBusy: registrationIsBusy(state)
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    registerUser: (fullName, email, password, confirmPassword) =>
+      dispatch(
+        RegisterActions.registerRequest(
+          fullName,
+          email,
+          password,
+          confirmPassword
+        )
+      )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationScreen)

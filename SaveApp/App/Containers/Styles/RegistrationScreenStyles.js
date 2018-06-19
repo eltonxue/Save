@@ -29,27 +29,15 @@ export default StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
     marginTop: 15,
-    borderRadius: 5,
     paddingLeft: 0,
-    borderBottomWidth: 0
-  },
-  invalidInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    marginTop: 15,
-    borderRadius: 5,
-    paddingLeft: 0,
-    borderWidth: 1,
-    borderLeftWidth: 1,
-    borderBottomWidth: 1,
-    borderRightWidth: 1.5,
-    borderColor: 'red'
+    borderBottomWidth: 0,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5
   },
   input: {
-    borderRadius: 5,
     color: Colors.steel,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
     height: 40,
     paddingLeft: 0,
     paddingRight: 10,
@@ -82,10 +70,5 @@ export default StyleSheet.create({
     color: 'white',
     marginTop: 75,
     fontFamily: 'CourierNewPS-BoldMT'
-  },
-  errorText: {
-    color: 'red',
-    fontSize: 15,
-    marginBottom: 0
   }
 })
