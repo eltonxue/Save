@@ -65,7 +65,7 @@ export default StyleSheet.create({
     color: Colors.moneygreen
   },
   save: {
-    fontSize: 80,
+    fontSize: 60,
     textAlign: 'center',
     color: 'white',
     marginTop: 75,

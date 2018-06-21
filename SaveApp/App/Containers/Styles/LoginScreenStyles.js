@@ -24,6 +24,37 @@ export default StyleSheet.create({
     fontSize: 6,
     textAlign: 'center'
   },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    marginTop: 15,
+    paddingLeft: 0,
+    borderBottomWidth: 0,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5
+  },
+  input: {
+    color: Colors.steel,
+    height: 40,
+    paddingLeft: 0,
+    paddingRight: 10,
+    borderColor: 'gray',
+    backgroundColor: 'white',
+    color: Colors.offblack,
+    fontSize: 14,
+    flex: 8,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5
+  },
+  iconContainer: {
+    flex: 1
+  },
+  icon: {
+    fontSize: 20,
+    color: Colors.offblack
+  },
   subheader: {
     fontSize: 20,
     color: 'white',
@@ -35,7 +66,7 @@ export default StyleSheet.create({
     color: Colors.moneygreen
   },
   save: {
-    fontSize: 80,
+    fontSize: 60,
     textAlign: 'center',
     color: 'white',
     marginTop: 125,

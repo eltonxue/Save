@@ -12,6 +12,8 @@ const validate = require('../libs/validate')
 const cookieName = process.env.JWT_COOKIE_NAME
 const maxAge = process.env.JWT_EXPIRES_IN
 
+const emailREGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource')
@@ -25,7 +27,9 @@ router.post('/login', function(req, res, next) {
     return res
       .status(HTTPStatus.BAD_REQUEST)
       .json({ error: errorCodes.MISSING_EMAIL })
-  if (!validate.isString(password))
+  else if (!validate.isEmail(req.body.email)) {
+    res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.INVALID_EMAIL })
+  } else if (!validate.isString(password))
     return res
       .status(HTTPStatus.BAD_REQUEST)
       .json({ error: errorCodes.MISSING_PASSWORD })
@@ -34,23 +38,21 @@ router.post('/login', function(req, res, next) {
     .then(user => {
       if (!user)
         return res
-          .status(HTTPStatus.NOT_FOUND)
-          .json({ error: errorCodes.USER_NOT_FOUND })
+          .status(HTTPStatus.UNAUTHORIZED)
+          .json({ error: errorCodes.USER_INVALID_CREDENTIALS })
+      else if (!user.comparePassword(password))
+        return res
+          .status(HTTPStatus.UNAUTHORIZED)
+          .json({ error: errorCodes.USER_INVALID_CREDENTIALS })
+      else {
+        const userObj = user.toJSON()
+        const jwtObj = user.toJWTPayload()
+        const token = jwt.generateToken(jwtObj)
 
-      // if (!user.comparePassword(password))
-      //   return res
-      //     .status(HTTPStatus.UNAUTHORIZED)
-      //     .json({ error: errorCodes.USER_INVALID_CREDENTIALS });
+        userObj.jwt = token
 
-      const userObj = user.toJSON()
-      const jwtObj = user.toJWTPayload()
-      const token = jwt.generateToken(jwtObj)
-
-      userObj.jwt = token
-
-      res.cookie(cookieName, token, { maxAge })
-
-      res.status(HTTPStatus.OK).json({ data: userObj })
+        res.status(HTTPStatus.OK).json({ data: userObj })
+      }
     })
     .catch(err => res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json(err))
 })
@@ -67,12 +69,12 @@ router.post('/', function(req, res, next) {
     res
       .status(HTTPStatus.BAD_REQUEST)
       .json({ error: errorCodes.MISSING_PASSWORD })
+  } else if (!validate.isEmail(req.body.email)) {
+    res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.INVALID_EMAIL })
   } else if (!req.body.confirmPassword) {
     res
       .status(HTTPStatus.BAD_REQUEST)
       .json({ error: errorCodes.MISSING_CONFIRM_PASSWORD })
-  } else if (!re.test(String(req.body.email).toLowerCase())) {
-    res.status(HTTPStatus.BAD_REQUEST).json({ error: errorCodes.INVALID_EMAIL })
   } else if (req.body.password !== req.body.confirmPassword) {
     res
       .status(HTTPStatus.BAD_REQUEST)
@@ -92,9 +94,7 @@ router.post('/', function(req, res, next) {
           })
             .then(user => {
               const userObj = user.toJSON()
-              console.log(userObj)
               const jwtObj = user.toJWTPayload()
-              console.log(jwtObj)
               const token = jwt.generateToken(jwtObj)
 
               userObj.jwt = token

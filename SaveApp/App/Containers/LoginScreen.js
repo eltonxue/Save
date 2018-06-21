@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import autoBind from 'react-autobind'
+import FontAwesome, { Icons } from 'react-native-fontawesome'
 import {
   ScrollView,
   Text,
@@ -10,36 +11,38 @@ import {
   TouchableOpacity,
   TextInput
 } from 'react-native'
+
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Input } from 'react-native-elements'
 import { StackNavigator } from 'react-navigation'
 import { connect } from 'react-redux'
+import { debounce } from 'lodash'
 
 import * as Animatable from 'react-native-animatable'
 import DropdownAlert from 'react-native-dropdownalert'
-import { debounce } from 'lodash'
-
-import { Images } from '../Themes'
 
 import DrawerButton from '../Components/DrawerButton'
 import RoundedButton from '../Components/RoundedButton'
+
+// Screens
+import RegistrationScreen from './RegistrationScreen'
+
+import { Images } from '../Themes'
 
 // Redux/Sagas
 import AuthenticationActions from '../Redux/AuthenticationRedux'
 import { authenticationSelectors } from '../Redux/AuthenticationRedux'
 
 // Styles
-import styles from './Styles/RegistrationScreenStyles'
+import styles from './Styles/LoginScreenStyles'
 
-class RegistrationScreen extends Component {
+class LoginScreen extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      fullName: '',
       email: '',
-      password: '',
-      confirmPassword: ''
+      password: ''
     }
   }
 
@@ -61,10 +64,10 @@ class RegistrationScreen extends Component {
     // returns: automatic, programmatic, tap, pan or cancel
   }
 
-  registerUser = () => {
-    const { fullName, email, password, confirmPassword } = this.state
+  loginUser = () => {
+    const { email, password } = this.state
 
-    this.props.registerUser(fullName, email, password, confirmPassword)
+    this.props.loginUser(email, password)
   }
 
   goBack = () => {
@@ -76,27 +79,13 @@ class RegistrationScreen extends Component {
     return (
       <View style={styles.mainContainer}>
         <ScrollView style={styles.container}>
-          <Text style={styles.save}>Register</Text>
+          <Text style={styles.save}>Login</Text>
           <View style={styles.section}>
             <Text style={styles.subheader}>
               <Text style={styles.sub}>Create</Text> Budgets.{' '}
               <Text style={styles.sub}>Save</Text> Money.
             </Text>
             <View style={styles.centered}>
-              <Input
-                inputContainerStyle={
-                  !this.state.fullNameError
-                    ? styles.inputContainer
-                    : styles.invalidInputContainer
-                }
-                inputStyle={styles.input}
-                onChangeText={fullName => this.setState({ fullName })}
-                value={this.state.fullName}
-                placeholder="Full Name"
-                ref={input => (this.fullNameInput = input)}
-                leftIconContainerStyle={styles.iconContainer}
-                leftIcon={<Icon style={styles.icon} name="user" />}
-              />
               <Input
                 inputContainerStyle={
                   !this.state.emailError
@@ -110,6 +99,8 @@ class RegistrationScreen extends Component {
                 ref={input => (this.emailInput = input)}
                 leftIconContainerStyle={styles.iconContainer}
                 leftIcon={<Icon style={styles.icon} name="envelope" />}
+                errorStyle={styles.errorText}
+                errorMessage={this.state.emailError}
                 autoCapitalize={false}
               />
 
@@ -127,31 +118,14 @@ class RegistrationScreen extends Component {
                 ref={input => (this.passwordInput = input)}
                 leftIconContainerStyle={styles.iconContainer}
                 leftIcon={<Icon style={styles.icon} name="lock" />}
-              />
-
-              <Input
-                inputContainerStyle={
-                  !this.state.confirmPasswordError
-                    ? styles.inputContainer
-                    : styles.invalidInputContainer
-                }
-                inputStyle={styles.input}
-                onChangeText={confirmPassword =>
-                  this.setState({ confirmPassword })
-                }
-                value={this.state.confirmPassword}
-                placeholder="Confirm Password"
-                secureTextEntry={true}
-                ref={input => (this.confirmPasswordInput = input)}
-                leftIconContainerStyle={styles.iconContainer}
-                leftIcon={<Icon style={styles.icon} name="lock" />}
+                errorStyle={styles.errorText}
+                errorMessage={this.state.passwordError}
               />
             </View>
           </View>
-
           <RoundedButton
-            text="Register"
-            onPress={debounce(this.registerUser, DEBOUNCE)}
+            text="Login"
+            onPress={debounce(this.loginUser, DEBOUNCE)}
           />
           <View style={styles.centered}>
             <DrawerButton
@@ -185,16 +159,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    registerUser: (fullName, email, password, confirmPassword) =>
-      dispatch(
-        AuthenticationActions.registerRequest(
-          fullName,
-          email,
-          password,
-          confirmPassword
-        )
-      )
+    loginUser: (email, password) =>
+      dispatch(AuthenticationActions.loginRequest(email, password))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegistrationScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)

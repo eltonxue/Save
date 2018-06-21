@@ -47,9 +47,9 @@ const errorCodes = {
     code: 203,
     message: 'Token does not belong to a user'
   },
-  USER_NOT_FOUND: {
+  USER_INVALID_CREDENTIALS: {
     code: 301,
-    message: 'User was not found'
+    message: 'Email or password is invalid'
   }
 }
 

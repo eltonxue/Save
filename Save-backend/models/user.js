@@ -1,16 +1,44 @@
-'use strict'
-module.exports = (sequelize, DataTypes) => {
+const passwordUtils = require('../libs/password')
+
+module.exports = (sequelize, Sequelize) => {
   var User = sequelize.define(
     'User',
     {
-      fullName: DataTypes.STRING,
-      email: DataTypes.STRING,
-      password: DataTypes.STRING
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      fullName: {
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true
+        }
+      },
+      email: {
+        type: Sequelize.STRING,
+        validate: {
+          isEmail: true,
+          notEmpty: true
+        }
+      },
+      password: {
+        type: Sequelize.STRING(72),
+
+        set(val) {
+          this.setDataValue('password', passwordUtils.hashPassword(val))
+        }
+      }
     },
     {}
   )
   User.associate = function(models) {
     // associations can be defined here
+  }
+
+  User.prototype.comparePassword = function(password) {
+    const that = this
+    return passwordUtils.comparePassword(password.trim(), that.password)
   }
 
   User.prototype.toJSON = function() {
@@ -26,6 +54,5 @@ module.exports = (sequelize, DataTypes) => {
       email: user.email
     }
   }
-
   return User
 }

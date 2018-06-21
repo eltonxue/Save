@@ -41,6 +41,8 @@ const create = (baseURL = 'http://localhost:3000/') => {
   const postRegister = (fullName, email, password, confirmPassword) =>
     api.post('users', { fullName, email, password, confirmPassword })
 
+  const postLogin = (email, password) =>
+    api.post('users/login', { email, password })
   // ------
   // STEP 3
   // ------
@@ -58,7 +60,8 @@ const create = (baseURL = 'http://localhost:3000/') => {
     getRoot,
     getRate,
     getUser,
-    postRegister
+    postRegister,
+    postLogin
   }
 }
 

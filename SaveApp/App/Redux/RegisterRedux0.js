@@ -5,8 +5,12 @@ import Immutable from 'seamless-immutable'
 
 const { Types, Creators } = createActions({
   registerRequest: ['fullName', 'email', 'password', 'confirmPassword'],
-  registerSuccess: ['response'],
-  registerFailure: ['response']
+  registerSuccess: ['data'],
+  registerFailure: ['data'],
+
+  loginRequest: ['email', 'password'],
+  loginSuccess: ['data'],
+  loginFailure: ['data']
 })
 
 export const RegisterTypes = Types
@@ -19,8 +23,6 @@ export const INITIAL_STATE = Immutable({
   error: null,
   fullName: null,
   email: null,
-  password: null,
-  confirmPassword: null,
   data: {
     data: null,
     error: {
@@ -40,7 +42,6 @@ export const registerSelectors = {
 
 /* ------------- Reducers ------------- */
 
-// request the avatar for a user
 export const request = (
   state,
   { fullName, email, password, confirmPassword }
@@ -49,8 +50,6 @@ export const request = (
     fetching: true,
     fullName,
     email,
-    password,
-    confirmPassword,
     data: {
       data: null,
       error: {
@@ -60,9 +59,8 @@ export const request = (
     }
   })
 
-// successful avatar lookup
 export const success = (state, action) => {
-  const { data } = action.response
+  const { data } = action.data
   return state.merge({
     fetching: false,
     error: null,
@@ -72,7 +70,7 @@ export const success = (state, action) => {
 
 // failed to get the avatar
 export const failure = (state, action) => {
-  const { data } = action.response
+  const { data } = action.data
   return state.merge({
     fetching: false,
     error: true,
