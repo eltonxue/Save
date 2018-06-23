@@ -29,11 +29,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
-    marginTop: 15,
     paddingLeft: 0,
-    borderBottomWidth: 0,
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5
+    borderBottomWidth: 0
   },
   input: {
     color: Colors.steel,
@@ -44,9 +41,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     color: Colors.offblack,
     fontSize: 14,
-    flex: 8,
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5
+    flex: 8
   },
   iconContainer: {
     flex: 1
@@ -55,21 +50,40 @@ export default StyleSheet.create({
     fontSize: 20,
     color: Colors.offblack
   },
+  backButton: {
+    marginTop: 30,
+    marginLeft: 20
+  },
+  back: {
+    color: Colors.snow,
+    fontSize: 50
+  },
   subheader: {
     fontSize: 20,
     color: 'white',
     textAlign: 'center',
-    fontWeight: '700'
+    fontWeight: '700',
+    marginTop: 10
   },
   sub: {
-    fontSize: 20,
     color: Colors.moneygreen
   },
   save: {
-    fontSize: 60,
+    fontSize: 50,
     textAlign: 'center',
     color: 'white',
-    marginTop: 125,
+    marginTop: 50,
     fontFamily: 'CourierNewPS-BoldMT'
+  },
+  inputLabel: {
+    color: Colors.snow,
+    fontSize: 14,
+    marginBottom: 10,
+    marginTop: 10,
+    fontFamily: 'Arial',
+    marginLeft: 15
+  },
+  zeroMarginTop: {
+    marginTop: 0
   }
 })

@@ -40,5 +40,32 @@ export default StyleSheet.create({
     color: 'white',
     marginTop: 125,
     fontFamily: 'CourierNewPS-BoldMT'
+  },
+  hasAccount: {
+    alignItems: 'center',
+    marginBottom: 30
+  },
+  text: {
+    color: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'transparent',
+    textAlign: 'center',
+    paddingHorizontal: 16
+  },
+  title: {
+    fontSize: 22,
+    color: 'white',
+    backgroundColor: 'transparent',
+    textAlign: 'center',
+    marginBottom: 16
+  },
+  image: {
+    height: 200,
+    width: 200,
+    marginBottom: 30,
+    marginTop: 50
+  },
+  slideContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })

@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Input } from 'react-native-elements'
-import { StackNavigator } from 'react-navigation'
+import { StackNavigator, StackActions } from 'react-navigation'
 import { connect } from 'react-redux'
 
 import * as Animatable from 'react-native-animatable'
@@ -76,12 +76,16 @@ class RegistrationScreen extends Component {
     return (
       <View style={styles.mainContainer}>
         <ScrollView style={styles.container}>
+          <TouchableOpacity style={styles.backButton} onPress={this.goBack}>
+            <Icon style={styles.back} name="angle-left" />
+          </TouchableOpacity>
           <Text style={styles.save}>Register</Text>
-          <View style={styles.section}>
-            <Text style={styles.subheader}>
-              <Text style={styles.sub}>Create</Text> Budgets.{' '}
-              <Text style={styles.sub}>Save</Text> Money.
-            </Text>
+          <Text style={styles.subheader}>
+            <Text style={styles.sub}>Create</Text> Budgets.{' '}
+            <Text style={styles.sub}>Save</Text> Money.
+          </Text>
+          <View style={[styles.section, styles.zeroMarginTop]}>
+            <Text style={styles.inputLabel}>Full Name</Text>
             <View style={styles.centered}>
               <Input
                 inputContainerStyle={
@@ -97,6 +101,9 @@ class RegistrationScreen extends Component {
                 leftIconContainerStyle={styles.iconContainer}
                 leftIcon={<Icon style={styles.icon} name="user" />}
               />
+            </View>
+            <Text style={styles.inputLabel}>Email</Text>
+            <View style={styles.centered}>
               <Input
                 inputContainerStyle={
                   !this.state.emailError
@@ -110,9 +117,11 @@ class RegistrationScreen extends Component {
                 ref={input => (this.emailInput = input)}
                 leftIconContainerStyle={styles.iconContainer}
                 leftIcon={<Icon style={styles.icon} name="envelope" />}
-                autoCapitalize={false}
+                autoCapitalize={'none'}
               />
-
+            </View>
+            <Text style={styles.inputLabel}>Password</Text>
+            <View style={styles.centered}>
               <Input
                 inputContainerStyle={
                   !this.state.passwordError
@@ -128,7 +137,9 @@ class RegistrationScreen extends Component {
                 leftIconContainerStyle={styles.iconContainer}
                 leftIcon={<Icon style={styles.icon} name="lock" />}
               />
-
+            </View>
+            <Text style={styles.inputLabel}>Confirm Password</Text>
+            <View style={styles.centered}>
               <Input
                 inputContainerStyle={
                   !this.state.confirmPasswordError
@@ -153,12 +164,6 @@ class RegistrationScreen extends Component {
             text="Register"
             onPress={debounce(this.registerUser, DEBOUNCE)}
           />
-          <View style={styles.centered}>
-            <DrawerButton
-              text="Back"
-              onPress={debounce(this.goBack, DEBOUNCE)}
-            />
-          </View>
         </ScrollView>
         <DropdownAlert
           ref={ref => (this.dropdown = ref)}

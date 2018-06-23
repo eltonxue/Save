@@ -4,9 +4,12 @@ import configureStore from './CreateStore'
 import rootSaga from '../Sagas/'
 import ReduxPersist from '../Config/ReduxPersist'
 
+import { createNavigationReducer } from 'react-navigation-redux-helpers'
+import AppNavigation from '../Navigation/AppNavigation'
+
 /* ------------- Assemble The Reducers ------------- */
 export const reducers = combineReducers({
-  nav: require('./NavigationRedux').reducer,
+  nav: createNavigationReducer(AppNavigation),
   github: require('./GithubRedux').reducer,
   search: require('./SearchRedux').reducer,
   authentication: require('./AuthenticationRedux').reducer
@@ -20,7 +23,7 @@ export default () => {
     finalReducers = persistReducer(persistConfig, reducers)
   }
 
-  let { store, sagasManager, sagaMiddleware } = configureStore(
+  let { store, sagasManager, sagaMiddleware, ReduxNavigation } = configureStore(
     finalReducers,
     rootSaga
   )
@@ -38,5 +41,5 @@ export default () => {
     })
   }
 
-  return store
+  return { store, ReduxNavigation }
 }

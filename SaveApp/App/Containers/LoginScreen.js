@@ -75,16 +75,21 @@ class LoginScreen extends Component {
   }
 
   render() {
+    console.log(this.props.navigation)
     const DEBOUNCE = 150
     return (
       <View style={styles.mainContainer}>
         <ScrollView style={styles.container}>
+          <TouchableOpacity style={styles.backButton} onPress={this.goBack}>
+            <Icon style={styles.back} name="angle-left" />
+          </TouchableOpacity>
           <Text style={styles.save}>Login</Text>
-          <View style={styles.section}>
-            <Text style={styles.subheader}>
-              <Text style={styles.sub}>Create</Text> Budgets.{' '}
-              <Text style={styles.sub}>Save</Text> Money.
-            </Text>
+          <Text style={styles.subheader}>
+            <Text style={styles.sub}>Create</Text> Budgets.{' '}
+            <Text style={styles.sub}>Save</Text> Money.
+          </Text>
+          <View style={[styles.section, styles.zeroMarginTop]}>
+            <Text style={styles.inputLabel}>Email</Text>
             <View style={styles.centered}>
               <Input
                 inputContainerStyle={
@@ -101,9 +106,11 @@ class LoginScreen extends Component {
                 leftIcon={<Icon style={styles.icon} name="envelope" />}
                 errorStyle={styles.errorText}
                 errorMessage={this.state.emailError}
-                autoCapitalize={false}
+                autoCapitalize={'none'}
               />
-
+            </View>
+            <Text style={styles.inputLabel}>Password</Text>
+            <View style={styles.centered}>
               <Input
                 inputContainerStyle={
                   !this.state.passwordError
@@ -127,12 +134,6 @@ class LoginScreen extends Component {
             text="Login"
             onPress={debounce(this.loginUser, DEBOUNCE)}
           />
-          <View style={styles.centered}>
-            <DrawerButton
-              text="Back"
-              onPress={debounce(this.goBack, DEBOUNCE)}
-            />
-          </View>
         </ScrollView>
         <DropdownAlert
           ref={ref => (this.dropdown = ref)}
