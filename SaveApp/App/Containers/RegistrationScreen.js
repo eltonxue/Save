@@ -85,85 +85,95 @@ class RegistrationScreen extends Component {
             <Text style={styles.sub}>Save</Text> Money.
           </Text>
           <View style={[styles.section, styles.zeroMarginTop]}>
-            <Text style={styles.inputLabel}>Full Name</Text>
-            <View style={styles.centered}>
-              <Input
-                inputContainerStyle={
-                  !this.state.fullNameError
-                    ? styles.inputContainer
-                    : styles.invalidInputContainer
-                }
-                inputStyle={styles.input}
-                onChangeText={fullName => this.setState({ fullName })}
-                value={this.state.fullName}
-                placeholder="Full Name"
-                ref={input => (this.fullNameInput = input)}
-                leftIconContainerStyle={styles.iconContainer}
-                leftIcon={<Icon style={styles.icon} name="user" />}
-              />
-            </View>
-            <Text style={styles.inputLabel}>Email</Text>
-            <View style={styles.centered}>
-              <Input
-                inputContainerStyle={
-                  !this.state.emailError
-                    ? styles.inputContainer
-                    : styles.invalidInputContainer
-                }
-                inputStyle={styles.input}
-                onChangeText={email => this.setState({ email })}
-                value={this.state.email}
-                placeholder="Email"
-                ref={input => (this.emailInput = input)}
-                leftIconContainerStyle={styles.iconContainer}
-                leftIcon={<Icon style={styles.icon} name="envelope" />}
-                autoCapitalize={'none'}
-              />
-            </View>
-            <Text style={styles.inputLabel}>Password</Text>
-            <View style={styles.centered}>
-              <Input
-                inputContainerStyle={
-                  !this.state.passwordError
-                    ? styles.inputContainer
-                    : styles.invalidInputContainer
-                }
-                inputStyle={styles.input}
-                onChangeText={password => this.setState({ password })}
-                value={this.state.password}
-                placeholder="Password"
-                secureTextEntry={true}
-                ref={input => (this.passwordInput = input)}
-                leftIconContainerStyle={styles.iconContainer}
-                leftIcon={<Icon style={styles.icon} name="lock" />}
-              />
-            </View>
-            <Text style={styles.inputLabel}>Confirm Password</Text>
-            <View style={styles.centered}>
-              <Input
-                inputContainerStyle={
-                  !this.state.confirmPasswordError
-                    ? styles.inputContainer
-                    : styles.invalidInputContainer
-                }
-                inputStyle={styles.input}
-                onChangeText={confirmPassword =>
-                  this.setState({ confirmPassword })
-                }
-                value={this.state.confirmPassword}
-                placeholder="Confirm Password"
-                secureTextEntry={true}
-                ref={input => (this.confirmPasswordInput = input)}
-                leftIconContainerStyle={styles.iconContainer}
-                leftIcon={<Icon style={styles.icon} name="lock" />}
-              />
-            </View>
+            <Animatable.View animation="fadeInLeft">
+              <Text style={styles.inputLabel}>Full Name</Text>
+              <View style={styles.centered}>
+                <Input
+                  inputContainerStyle={
+                    !this.state.fullNameError
+                      ? styles.inputContainer
+                      : styles.invalidInputContainer
+                  }
+                  inputStyle={styles.input}
+                  onChangeText={fullName => this.setState({ fullName })}
+                  value={this.state.fullName}
+                  placeholder="Full Name"
+                  ref={input => (this.fullNameInput = input)}
+                  leftIconContainerStyle={styles.iconContainer}
+                  leftIcon={<Icon style={styles.icon} name="user" />}
+                />
+              </View>
+            </Animatable.View>
+            <Animatable.View animation="fadeInRight" delay={100}>
+              <Text style={styles.inputLabel}>Email</Text>
+              <View style={styles.centered}>
+                <Input
+                  inputContainerStyle={
+                    !this.state.emailError
+                      ? styles.inputContainer
+                      : styles.invalidInputContainer
+                  }
+                  inputStyle={styles.input}
+                  onChangeText={email => this.setState({ email })}
+                  value={this.state.email}
+                  placeholder="Email"
+                  ref={input => (this.emailInput = input)}
+                  leftIconContainerStyle={styles.iconContainer}
+                  leftIcon={<Icon style={styles.icon} name="envelope" />}
+                  autoCapitalize={'none'}
+                />
+              </View>
+            </Animatable.View>
+            <Animatable.View animation="fadeInLeft" delay={200}>
+              <Text style={styles.inputLabel}>Password</Text>
+              <View style={styles.centered}>
+                <Input
+                  inputContainerStyle={
+                    !this.state.passwordError
+                      ? styles.inputContainer
+                      : styles.invalidInputContainer
+                  }
+                  inputStyle={styles.input}
+                  onChangeText={password => this.setState({ password })}
+                  value={this.state.password}
+                  placeholder="Password"
+                  secureTextEntry={true}
+                  ref={input => (this.passwordInput = input)}
+                  leftIconContainerStyle={styles.iconContainer}
+                  leftIcon={<Icon style={styles.icon} name="lock" />}
+                />
+              </View>
+            </Animatable.View>
+            <Animatable.View animation="fadeInRight" delay={300}>
+              <Text style={styles.inputLabel}>Confirm Password</Text>
+              <View style={styles.centered}>
+                <Input
+                  inputContainerStyle={
+                    !this.state.confirmPasswordError
+                      ? styles.inputContainer
+                      : styles.invalidInputContainer
+                  }
+                  inputStyle={styles.input}
+                  onChangeText={confirmPassword =>
+                    this.setState({ confirmPassword })
+                  }
+                  value={this.state.confirmPassword}
+                  placeholder="Confirm Password"
+                  secureTextEntry={true}
+                  ref={input => (this.confirmPasswordInput = input)}
+                  leftIconContainerStyle={styles.iconContainer}
+                  leftIcon={<Icon style={styles.icon} name="lock" />}
+                />
+              </View>
+            </Animatable.View>
           </View>
 
-          <RoundedButton
-            text="Register"
-            onPress={debounce(this.registerUser, DEBOUNCE)}
-          />
+          <Animatable.View animation="fadeInLeft" delay={400}>
+            <RoundedButton
+              text="Register"
+              onPress={debounce(this.registerUser, DEBOUNCE)}
+            />
+          </Animatable.View>
         </ScrollView>
         <DropdownAlert
           ref={ref => (this.dropdown = ref)}

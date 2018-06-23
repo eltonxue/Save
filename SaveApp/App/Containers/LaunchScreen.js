@@ -17,6 +17,7 @@ import { Input } from 'react-native-elements'
 import { StackNavigator } from 'react-navigation'
 import { debounce } from 'lodash'
 import AppIntroSlider from 'react-native-app-intro-slider'
+import * as Animatable from 'react-native-animatable'
 
 // Utils
 import DrawerButton from '../Components/DrawerButton'
@@ -85,10 +86,12 @@ class LaunchScreen extends Component {
           renderItem={this.renderItem}
         />
 
-        <RoundedButton
-          text="Register"
-          onPress={debounce(this.openRegistration, DEBOUNCE)}
-        />
+        <Animatable.View animation="bounceIn" duration={2000}>
+          <RoundedButton
+            text="Register"
+            onPress={debounce(this.openRegistration, DEBOUNCE)}
+          />
+        </Animatable.View>
         <View style={styles.hasAccount}>
           <DrawerButton
             text="Already have an account? Login"

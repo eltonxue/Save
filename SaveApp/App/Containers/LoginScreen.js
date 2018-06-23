@@ -89,51 +89,57 @@ class LoginScreen extends Component {
             <Text style={styles.sub}>Save</Text> Money.
           </Text>
           <View style={[styles.section, styles.zeroMarginTop]}>
-            <Text style={styles.inputLabel}>Email</Text>
-            <View style={styles.centered}>
-              <Input
-                inputContainerStyle={
-                  !this.state.emailError
-                    ? styles.inputContainer
-                    : styles.invalidInputContainer
-                }
-                inputStyle={styles.input}
-                onChangeText={email => this.setState({ email })}
-                value={this.state.email}
-                placeholder="Email"
-                ref={input => (this.emailInput = input)}
-                leftIconContainerStyle={styles.iconContainer}
-                leftIcon={<Icon style={styles.icon} name="envelope" />}
-                errorStyle={styles.errorText}
-                errorMessage={this.state.emailError}
-                autoCapitalize={'none'}
-              />
-            </View>
-            <Text style={styles.inputLabel}>Password</Text>
-            <View style={styles.centered}>
-              <Input
-                inputContainerStyle={
-                  !this.state.passwordError
-                    ? styles.inputContainer
-                    : styles.invalidInputContainer
-                }
-                inputStyle={styles.input}
-                onChangeText={password => this.setState({ password })}
-                value={this.state.password}
-                placeholder="Password"
-                secureTextEntry={true}
-                ref={input => (this.passwordInput = input)}
-                leftIconContainerStyle={styles.iconContainer}
-                leftIcon={<Icon style={styles.icon} name="lock" />}
-                errorStyle={styles.errorText}
-                errorMessage={this.state.passwordError}
-              />
-            </View>
+            <Animatable.View animation="fadeInLeft">
+              <Text style={styles.inputLabel}>Email</Text>
+              <View style={styles.centered}>
+                <Input
+                  inputContainerStyle={
+                    !this.state.emailError
+                      ? styles.inputContainer
+                      : styles.invalidInputContainer
+                  }
+                  inputStyle={styles.input}
+                  onChangeText={email => this.setState({ email })}
+                  value={this.state.email}
+                  placeholder="Email"
+                  ref={input => (this.emailInput = input)}
+                  leftIconContainerStyle={styles.iconContainer}
+                  leftIcon={<Icon style={styles.icon} name="envelope" />}
+                  errorStyle={styles.errorText}
+                  errorMessage={this.state.emailError}
+                  autoCapitalize={'none'}
+                />
+              </View>
+            </Animatable.View>
+            <Animatable.View animation="fadeInRight" delay={100}>
+              <Text style={styles.inputLabel}>Password</Text>
+              <View style={styles.centered}>
+                <Input
+                  inputContainerStyle={
+                    !this.state.passwordError
+                      ? styles.inputContainer
+                      : styles.invalidInputContainer
+                  }
+                  inputStyle={styles.input}
+                  onChangeText={password => this.setState({ password })}
+                  value={this.state.password}
+                  placeholder="Password"
+                  secureTextEntry={true}
+                  ref={input => (this.passwordInput = input)}
+                  leftIconContainerStyle={styles.iconContainer}
+                  leftIcon={<Icon style={styles.icon} name="lock" />}
+                  errorStyle={styles.errorText}
+                  errorMessage={this.state.passwordError}
+                />
+              </View>
+            </Animatable.View>
           </View>
-          <RoundedButton
-            text="Login"
-            onPress={debounce(this.loginUser, DEBOUNCE)}
-          />
+          <Animatable.View animation="fadeInLeft">
+            <RoundedButton
+              text="Login"
+              onPress={debounce(this.loginUser, DEBOUNCE)}
+            />
+          </Animatable.View>
         </ScrollView>
         <DropdownAlert
           ref={ref => (this.dropdown = ref)}
